@@ -97,5 +97,5 @@ National Senior Certificate (Matric)
 ## Contact
 
 **GitHub:** https://github.com/ReeceJosephMeuleh  
-**Email:** 218152701@mycput.ac.za
 **Phone:** 084 403 8382
+**Email:** 218152701@mycput.ac.za
