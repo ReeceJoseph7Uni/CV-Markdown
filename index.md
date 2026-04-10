@@ -4,27 +4,6 @@ title: Reece Josephs | Student Software Engineer
 description: Final-year Application Development student focused on Java, Spring Boot, Python, and database-driven systems.
 ---
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<p align="center">
-  <img src="https://github.com/ReeceJosephMeuleh.png" width="140" />
-</p>
-
-<h1 align="center">Reece Josephs</h1>
-<p align="center"><strong>Student Software Engineer</strong></p>
-
-<p align="center">
-  <a href="mailto:218152701@mycput.ac.za"><i class="fa-solid fa-envelope"></i> Email</a> |
-  <a href="https://github.com/ReeceJosephMeuleh"><i class="fa-brands fa-github"></i> GitHub</a> |
-  <a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-</p>
-
----
-layout: default
-title: Reece Josephs | Student Software Engineer
-description: Final-year Application Development student focused on Java, Spring Boot, Python, and database-driven systems.
----
-
 <p align="center">
   <img src="https://github.com/ReeceJosephMeuleh.png" alt="Reece Josephs" width="140" style="border-radius:50%;" />
 </p>
