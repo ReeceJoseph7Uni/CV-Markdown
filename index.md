@@ -13,7 +13,7 @@ description: Final-year Application Development student focused on Java, Spring 
 
 <p align="center">
   <a href="mailto:218152701@mycput.ac.za">Email</a> ·
-  <a href="https://github.com/ReeceJosephMeuleh">GitHub</a>
+  <a href="https://github.com/ReeceJosephMeuleh">GitHub</a> ·
   <a href="https://github.com/ReeceJosephMeuleh">LinkedIn</a>
 </p>
 
