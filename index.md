@@ -13,7 +13,8 @@ description: Final-year Application Development student focused on Java, Spring 
 
 <p align="center">
   <a href="mailto:YOUR_EMAIL_HERE">Email</a> ·
-  <a href="https://github.com/ReeceJosephMeuleh">GitHub</a>
+  <a href="https://github.com/ReeceJosephMeuleh">GitHub</a> ·
+  <a href="https://github.com/ReeceJosephMeuleh">LinkedIn</a>
 </p>
 
 ---
@@ -92,12 +93,6 @@ National Senior Certificate (Matric)
 **Interests:** Backend Development, Fintech Applications, System Architecture, Desktop Development
 
 ---
-
-## Contact
-
-**GitHub:** https://github.com/ReeceJosephMeuleh  
-**Email:** YOUR_EMAIL_HERE  
-**Phone:** YOUR_PHONE_HERE
 
 ## <i class="fa-solid fa-address-card"></i> Contact
 
