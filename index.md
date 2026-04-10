@@ -30,7 +30,7 @@ Final-year Application Development student at Cape Peninsula University of Techn
 | Category | Skills |
 |---|---|
 | Languages | Java, Python, SQL |
-| Frameworks & Libraries | Spring Boot, Java Swing |
+| Frameworks & Libraries | Spring Boot, Java, Java Swing |
 | Databases | MySQL, SQLite |
 | Tools & Version Control | Git, GitHub, VS Code, IntelliJ IDEA, NetBeans |
 | Core Concepts | Object-Oriented Programming, Data Structures & Algorithms, System Design, Database Design, Design Patterns, Client-Server Architecture |
