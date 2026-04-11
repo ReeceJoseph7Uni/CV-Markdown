@@ -1,3 +1,4 @@
+// TODO: Add authentication middleware before production (e.g., verify JWT/session token).
 import { NextResponse } from 'next/server';
 import { MOCK_PRODUCTS } from '@/lib/mock-data';
 

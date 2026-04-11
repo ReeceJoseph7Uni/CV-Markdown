@@ -1,5 +1,6 @@
 'use client';
 
+// NOTE: Demo authentication only. Replace with NextAuth.js or JWT-based auth before production.
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DollarSign, Eye, EyeOff } from 'lucide-react';
