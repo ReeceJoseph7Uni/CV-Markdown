@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProductType {
+  SAVINGS
+  NOTICE_DEPOSIT
+  FIXED_DEPOSIT
+  TFSA
+  MONEY_MARKET
+  PERSONAL_LOAN
+  HOME_LOAN
+  CREDIT_CARD
+  TRANSACTION_ACCOUNT
+  INVESTMENT
+}
+
+enum RateType {
+  NOMINAL
+  EFFECTIVE
+}
+
+enum AccessType {
+  INSTANT
+  NOTICE_7_DAYS
+  NOTICE_32_DAYS
+  NOTICE_60_DAYS
+  NOTICE_90_DAYS
+  FIXED_TERM
+}
+
+enum TaxStatus {
+  TAXABLE
+  TAX_FREE
+  TAX_DEFERRED
+}
+
+model Product {
+  id                String        @id @default(cuid())
+  institution       String
+  productName       String
+  productType       ProductType
+  category          String
+  eligibilityRules  String?
+  minDeposit        Decimal?      @db.Decimal(15, 2)
+  minIncome         Decimal?      @db.Decimal(15, 2)
+  maxBalance        Decimal?      @db.Decimal(15, 2)
+  accessType        AccessType
+  noticePeriodDays  Int?
+  monthlyFee        Decimal       @default(0) @db.Decimal(10, 2)
+  initiationFee     Decimal       @default(0) @db.Decimal(10, 2)
+  withdrawalFee     Decimal       @default(0) @db.Decimal(10, 2)
+  adminFee          Decimal       @default(0) @db.Decimal(10, 2)
+  taxStatus         TaxStatus
+  sourceUrl         String
+  lastCheckedDate   DateTime
+  updateFrequency   String        @default("MONTHLY")
+  isActive          Boolean       @default(true)
+  notes             String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  rates             ProductRate[]
+  comparisonScores  ComparisonScore[]
+
+  @@index([productType])
+  @@index([institution])
+}
+
+model ProductRate {
+  id                  String    @id @default(cuid())
+  productId           String
+  minBalance          Decimal   @default(0) @db.Decimal(15, 2)
+  maxBalance          Decimal?  @db.Decimal(15, 2)
+  interestRate        Decimal   @db.Decimal(6, 4)
+  rateType            RateType  @default(NOMINAL)
+  effectiveYield      Decimal?  @db.Decimal(6, 4)
+  isPromotional       Boolean   @default(false)
+  promotionEndDate    DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  product             Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model Calculator {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  description   String
+  category      String
+  inputs        Json
+  formula       String
+  outputFields  Json
+  taxYear       String?
+  assumptions   Json?
+  sourceRefs    Json?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum UserProfile {
+  EMERGENCY_SAVINGS
+  TFSA_INVESTOR
+  LARGE_BALANCE
+  NO_FEE_PREFERENCE
+  SHORT_TERM_PARKING
+  GENERAL
+}
+
+model ComparisonScore {
+  id                String      @id @default(cuid())
+  productId         String
+  userProfile       UserProfile
+  rateScore         Decimal     @db.Decimal(5, 2)
+  feeScore          Decimal     @db.Decimal(5, 2)
+  accessScore       Decimal     @db.Decimal(5, 2)
+  minBalanceScore   Decimal     @db.Decimal(5, 2)
+  tfsaScore         Decimal     @db.Decimal(5, 2)
+  digitalScore      Decimal     @db.Decimal(5, 2)
+  overallScore      Decimal     @db.Decimal(5, 2)
+  effectiveReturn   Decimal     @db.Decimal(6, 4)
+  lastCalculated    DateTime    @default(now())
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  product           Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, userProfile])
+  @@index([userProfile, overallScore])
+}
+
+model DataSource {
+  id               String    @id @default(cuid())
+  name             String    @unique
+  description      String
+  apiEndpoint      String?
+  refreshSchedule  String
+  lastSyncAt       DateTime?
+  lastSyncStatus   String?
+  lastSyncMessage  String?
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
