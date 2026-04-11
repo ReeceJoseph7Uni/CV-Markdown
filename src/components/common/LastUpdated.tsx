@@ -8,7 +8,7 @@ interface LastUpdatedProps {
   className?: string
 }
 
-function getRelativeTime(date: Date): string {
+function getRelativeTime(date: Date): string | null {
   const now = new Date()
   const diffMs = now.getTime() - date.getTime()
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
@@ -17,7 +17,7 @@ function getRelativeTime(date: Date): string {
   if (diffDays === 1) return 'yesterday'
   if (diffDays < 7) return `${diffDays} days ago`
   if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`
-  return null as unknown as string
+  return null
 }
 
 function getFreshnessClasses(diffDays: number): string {
