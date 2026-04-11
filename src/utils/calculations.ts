@@ -57,7 +57,7 @@ export function calculatePAYE(grossIncome: number, age = 30): PAYEResult {
     (b) => grossIncome >= b.min && (b.max === null || grossIncome <= b.max),
   ) ?? TAX_BRACKETS_2026[TAX_BRACKETS_2026.length - 1];
 
-  const rawTax = bracket.baseTax + (grossIncome - bracket.min + 1) * bracket.rate;
+  const rawTax = bracket.baseTax + (grossIncome - bracket.min) * bracket.rate;
 
   // Rebates
   let rebates = PRIMARY_REBATE;
@@ -323,22 +323,27 @@ export function calculateDebtSnowball(
   }
 
   // Calculate interest saved vs minimum-only scenario
-  const minOnlyTotal = sorted.reduce((sum, d) => {
+  // Total interest in snowball = total paid - total principal
+  const totalPrincipal = sorted.reduce((sum, d) => sum + d.balance, 0);
+  const snowballTotalPaid = timeline.reduce((sum, t) => sum + t.payment, 0);
+  const snowballTotalInterest = Math.max(0, snowballTotalPaid - totalPrincipal);
+
+  const minOnlyTotalInterest = sorted.reduce((sum, d) => {
     const r = d.rate / 100 / 12;
-    if (r === 0) return sum + d.balance;
-    // Total paid at minimum only (simplified)
+    if (r === 0) return sum;
+    // Guard: minimum payment must exceed monthly interest to eventually pay off
+    const monthlyInterest = d.balance * r;
+    if (d.minPayment <= monthlyInterest) {
+      // Payment doesn't cover interest — debt can never be paid off with minimums
+      // Use a large representative value (e.g., 10 years of interest-only payments)
+      return sum + monthlyInterest * 120;
+    }
     const n = -Math.log(1 - (r * d.balance) / d.minPayment) / Math.log(1 + r);
-    return sum + d.minPayment * Math.ceil(n);
+    const totalPaid = d.minPayment * Math.ceil(n);
+    return sum + Math.max(0, totalPaid - d.balance);
   }, 0);
 
-  const snowballTotal = sorted.reduce((sum, d) => sum + d.balance, 0) +
-    timeline.reduce((sum, t) => {
-      const debt = sorted.find((d) => d.name === t.debtName);
-      if (!debt) return sum;
-      return sum + t.payment * (debt.rate / 100 / 12);
-    }, 0);
-
-  const totalInterestSaved = Math.max(0, minOnlyTotal - snowballTotal);
+  const totalInterestSaved = Math.max(0, minOnlyTotalInterest - snowballTotalInterest);
 
   // Payoff date
   const now = new Date();

@@ -166,6 +166,23 @@ const CALCULATOR_VALIDATORS: Record<string, Record<string, FieldValidator>> = {
     rate: (v) => validatePercentage(Number(v), 'Interest rate'),
     periods: (v) => validatePositiveNumber(Number(v), 'Periods', 1),
   },
+  DEBT_SNOWBALL: {
+    debts: (v) => {
+      if (!Array.isArray(v) || v.length === 0) {
+        return 'At least one debt is required.';
+      }
+      for (let i = 0; i < v.length; i++) {
+        const debt = v[i] as Record<string, unknown>;
+        if (!debt || typeof debt !== 'object') return `Debt ${i + 1} is invalid.`;
+        if (!debt.name || typeof debt.name !== 'string' || debt.name.trim() === '') return `Debt ${i + 1} must have a name.`;
+        if (Number(debt.balance) <= 0) return `Debt "${debt.name}" balance must be greater than 0.`;
+        if (Number(debt.minPayment) <= 0) return `Debt "${debt.name}" minimum payment must be greater than 0.`;
+        if (Number(debt.rate) < 0 || Number(debt.rate) > 100) return `Debt "${debt.name}" interest rate must be between 0% and 100%.`;
+      }
+      return null;
+    },
+    extraPayment: (v) => validatePositiveNumber(Number(v), 'Extra payment', 0),
+  },
   NET_TO_GROSS: {
     netSalary: (v) => validateIncome(Number(v)),
   },
