@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useState } from 'react';
 import Header from '@/components/admin/Header';
 import { mockCalculators } from '@/lib/mockData';
 import { notFound } from 'next/navigation';
 
-export default function CalculatorDetailPage({ params }: { params: { id: string } }) {
-  const calculator = mockCalculators.find((c) => c.id === params.id);
+export default function CalculatorDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const calculator = mockCalculators.find((c) => c.id === id);
   if (!calculator) notFound();
 
   const [formula, setFormula] = useState(calculator.formula);

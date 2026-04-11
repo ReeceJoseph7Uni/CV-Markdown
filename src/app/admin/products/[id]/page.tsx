@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Header from '@/components/admin/Header';
 import { mockProducts } from '@/lib/mockData';
@@ -18,8 +18,9 @@ const SECTIONS = [
   'Disclaimers',
 ];
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const product = mockProducts.find((p) => p.id === params.id);
+export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const product = mockProducts.find((p) => p.id === id);
   if (!product) notFound();
 
   const [activeSection, setActiveSection] = useState('Basic Info');
