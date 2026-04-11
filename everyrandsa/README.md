@@ -19,7 +19,7 @@ EveryRandSA is a TypeScript/Next.js platform that gives South Africans:
 
 | Layer        | Technology                         |
 |--------------|------------------------------------|
-| Framework    | Next.js 14 (App Router)            |
+| Framework    | Next.js 15 (App Router)            |
 | Language     | TypeScript 5 (strict mode)         |
 | Database     | PostgreSQL via Prisma ORM          |
 | Caching      | In-memory with TTL                 |
